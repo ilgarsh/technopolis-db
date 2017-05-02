@@ -1,0 +1,57 @@
+@startuml
+
+control Proxy as proxy
+
+package Database as db {
+    database Database as ads1
+    database Database as ads2
+}
+
+package "Users" {
+    actor User as user1
+    actor User as user2
+    actor User as user3
+}
+
+package "Cluster" {
+    component [Server] as ws1
+    component [Server] as ws2
+}
+
+package "Cache" {
+    database Cache as cache1
+    database Cache as cache2
+}
+
+user1 -- proxy
+user2 -- proxy
+user3 -- proxy
+
+proxy -- ws1
+proxy -- ws2
+
+ws1 -- cache1
+ws1 -- cache2
+ws2 -- cache1
+ws2 -- cache2
+
+Cluster -- db
+
+note right of Users
+    Clients
+end note
+
+note top of ws1
+    Add data
+end note
+
+note top of ws2
+    Select data
+end note
+
+note right of db
+    NoSQL databases which
+    contain ads information
+end note
+
+@enduml 
