@@ -1,5 +1,7 @@
 package ru.mail.polis.prototype.database;
 
+import ru.mail.polis.prototype.database.datasets.Advertisement;
+import ru.mail.polis.prototype.database.datasets.Advertiser;
 import ru.mail.polis.prototype.database.executor.Executor;
 
 import java.io.FileInputStream;
@@ -8,9 +10,12 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import org.h2.jdbcx.JdbcDataSource;
+
+import java.util.List;
 
 /**
  * Date: 28.05.17
@@ -76,6 +81,28 @@ public class DatabaseImpl implements Database {
     public void addAdvertiser(long advertiserId, float cash) throws SQLException {
         executor.execUpdate("INSERT INTO ADVERTISER (advertiser_id, cash) values ('"
                 + advertiserId + "', '" + cash + "')");
+    }
+
+    @Override
+    public List<Advertisement> getAdvertisementByUserId(long userId) throws SQLException {
+        return executor.execQuery("SELECT * FROM ADVERTISEMENT WHERE user_id='" + userId + '\'', result -> {
+            List<Advertisement> ads = new ArrayList<>();
+            while (!result.isLast()) {
+                result.next();
+                ads.add(new Advertisement(result.getInt(1),
+                        result.getLong(2), result.getLong(3), result.getFloat(4)));
+            }
+            return ads;
+        });
+    }
+
+    @Override
+    public Advertiser getAdvertiserById(long id) throws SQLException {
+        return executor.execQuery("SELECT * FROM ADVERTISER WHERE advertiser_id='" + id + '\'', result -> {
+            result.next();
+            return new Advertiser(result.getLong(1),
+                    result.getFloat(2));
+        });
     }
 
     @Override

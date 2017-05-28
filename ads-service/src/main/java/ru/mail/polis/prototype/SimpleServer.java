@@ -36,6 +36,7 @@ public class SimpleServer {
         database = new DatabaseImpl();
         try {
             database.initTables();
+//            database.dropTables();
         } catch (SQLException e) {
             e.printStackTrace();
         }
