@@ -7,9 +7,12 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'com.h2database', name: 'h2', version: '1.4.187'
+    compile 'com.whalin:Memcached-Java-Client:3.0.2'
+    compile 'spy:spymemcached:2.11.6'
 }
