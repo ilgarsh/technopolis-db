@@ -7,6 +7,11 @@ package Database as db {
     database Database as ads2
 }
 
+package RelationalDatabase as rdb {
+    database Database as ads3
+    database Database as ads4
+}
+
 package "Users" {
     actor User as user1
     actor User as user2
@@ -36,6 +41,7 @@ ws2 -- cache1
 ws2 -- cache2
 
 Cluster -- db
+Cluster -- rdb
 
 note right of Users
     Clients
@@ -53,5 +59,11 @@ note right of db
     NoSQL databases which
     contain ads information
 end note
+
+cloud {
+[Другие микросервисы] as clicks
+}
+
+proxy -- clicks
 
 @enduml 
